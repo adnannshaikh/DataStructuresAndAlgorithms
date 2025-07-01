@@ -2,9 +2,10 @@ class Node:
     def __init__(self,data):
         self.data = data
         self.next = None
+        self.prev = None
 
 
-class LinkedList:
+class DoublyLinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
@@ -15,15 +16,18 @@ class LinkedList:
         if self.head == None:
             self.head = new_node
             self.tail = self.head
+            # new_node.prev = self.head
             self.length = 1
         else:
             self.tail.next = new_node
+            new_node.prev = self.tail
             self.tail = new_node
             self.length +=1
 
     def prepend(self,data):
         new_node = Node(data)
         new_node.next = self.head
+        self.head.prev = new_node
         self.head = new_node
         self.length +=1
 
@@ -40,9 +44,13 @@ class LinkedList:
         while i < index-1:
             current_node = current_node.next
             i+=1
-        new_node.next = current_node.next
+        next_node = current_node.next
+
+        new_node.next = next_node
+        new_node.prev = current_node
         current_node.next = new_node
-        print("Cr", current_node.data)
+        if next_node:
+            next_node.prev = new_node
         self.length +=1
 
 
@@ -50,16 +58,23 @@ class LinkedList:
     def remove(self,index):
         if index < 0 or index >= self.length:
             print("Index is out of range")
+            return
         if index == 0:
             self.head = self.head.next
+            if self.head:
+                self.head.prev = None
             self.length -= 1
+            return
         else:
             i = 0
             current_node = self.head
             while i < index-1:
                 current_node = current_node.next
                 i+=1
-            current_node.next = current_node.next.next
+            next_node = current_node.next
+            current_node.next = next_node.next
+            if next_node.next:
+                next_node.next.prev = current_node
             self.length -= 1
 
 
@@ -75,13 +90,11 @@ class LinkedList:
 
 
 
-ll = LinkedList()
+ll = DoublyLinkedList()
 ll.append(33)
-ll.append(53)
-ll.append(89)
-ll.append(99)
-ll.prepend('k')
-ll.prepend(25)
-ll.insert(4,77)
+ll.append(44)
+ll.append(55)
+ll.append(66)
+ll.insert(2,'x')
 ll.remove(2)
 print(ll.output())

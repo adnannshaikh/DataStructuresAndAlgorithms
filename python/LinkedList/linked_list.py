@@ -86,6 +86,19 @@ class LinkedList:
         current_node.next = current_node.next.next
         self.length-=1
 
+
+
+    def reverse(self):
+        prev = None
+        # self.tail = self.head
+        while self.head != None:
+            temp = self.head
+            self.head = self.head.next
+            temp.next = prev
+            prev = temp
+        self.head = prev
+
+
     def printLL(self):
         i = self.head
         a = []
@@ -95,14 +108,10 @@ class LinkedList:
         return '->'.join(a)
 
 
-
-li = LinkedList()
-li.append(10)
-li.append(16)
-li.prepend(66)
-li.append(11)
-li.insert(0,99)
-li.append(55)
-print(li.printLL())
-li.remove(3)
-print(li.printLL())
+ll = LinkedList()
+ll.append(90)
+ll.append(7)
+ll.append(10)
+print(ll.printLL())
+ll.reverse()
+print(ll.printLL())

@@ -31,7 +31,7 @@ class Stack:
             self.top = None
         hp = self.top
         self.top = self.top.next
-        return hp
+        return hp.data
 
 
     def isEmpty(self):
